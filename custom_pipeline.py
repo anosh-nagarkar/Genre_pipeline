@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 import torch.nn.functional as F
 import transformers
+import os
 
 class BERTClass(torch.nn.Module):
     def __init__(self):
@@ -17,9 +18,13 @@ class BERTClass(torch.nn.Module):
         return output
 
 class CustomBERTPipeline:
-    def __init__(self, model_path):
+    def __init__(self):
+        # Get the directory where this script resides
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        # Set the model path relative to the script directory
+        self.model_path = os.path.join(script_dir, 'model', 'current_checkpoint.pt')
         # Load your BERT model from the provided model_path
-        self.model = self.load_model(model_path)
+        self.model = self.load_model(self.model_path)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
         self.model.eval()
@@ -48,8 +53,7 @@ class CustomBERTPipeline:
         return probabilities
 
 # Example usage:
-#model_path = '/kaggle/input/model/current_checkpoint.pt'
-#custom_pipeline = CustomBERTPipeline(model_path)
+#custom_pipeline = CustomBERTPipeline()
 #text = "My name is Khan"
 #predictions = custom_pipeline.predict(text)
 #print(predictions)
