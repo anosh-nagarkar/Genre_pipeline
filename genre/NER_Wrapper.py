@@ -1,5 +1,5 @@
 import gc
-from Executors_.FeatureExtractors.NER_Wrapper.NameExtractors import NERWrapper,NextPassNERWrapper
+from genre.NER_Wrapper.NameExtractors import NERWrapper,NextPassNERWrapper
 
 class FullNERPipeline:
     def __init__(self):
