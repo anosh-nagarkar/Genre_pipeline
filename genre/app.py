@@ -1,27 +1,18 @@
-from Script_Matcher import ScriptMatcher
+from genre.EmotionPredictor import EmotionPredictor
+from genre.NER_Wrapper import FullNERPipeline
 
-# Create an instance of ScriptMatcher
-script_matcher = ScriptMatcher(data_path="your_dataset.csv")
+def process_text(text):
+    
+    emotions = ['anger', 'disgust', 'fear', 'inspiration', 'joy', 'love', 'neutral', 'sadness', 'suprise']
+    text = full_ner_pipeline.process_text(text)
+    emotion_prediction = emotion_predictor(text)
+    data = [{Y: X for X, Y in zip(emotion_prediction.tolist(), emotions)}]
 
-# Preprocess the dataset
-script_matcher.preprocess_dataset()
+    return {
+        'emotion_prediction': data
+    }
 
-# Create keyword dataset
-script_matcher.create_keyword_dataset()
+def get_models():
+    return FullNERPipeline()
 
-# Calculate similarity matrix
-script_matcher.calculate_similarity_matrix()
-
-# Define new synopsis and genres keywords
-new_synopsis = "Your new synopsis here."
-genres_keywords = ["genre1", "genre2", "genre3"]
-
-# Find similar series
-similar_series = script_matcher.find_similar_series(new_synopsis, genres_keywords)
-
-# Output the similar series
-for series in similar_series:
-    print("Series:", series["Series"])
-    print("Genre:", series["Genre"])
-    print("Score:", series["Score"])
-    print()
+emotion_predictor,full_ner_pipeline = get_models()
